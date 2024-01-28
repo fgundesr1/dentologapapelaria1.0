@@ -238,49 +238,54 @@ function newAccountDesktop() {
         <li class="shipping"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio">Acompanhar pedido</a></li>
     </ul>`);
 
-    if ($.cookie("LI-UserLoggedName") != '' && typeof $.cookie("LI-UserLoggedName") !== "undefined") {
+    const userLoggedName = $.cookie("LI-UserLoggedName");
+
+    if (userLoggedName && userLoggedName.trim() !== '') {
+        const firstName = userLoggedName.trim().split(" ")[0];
         $(".my_account_info").html(`<a href="/conta/login" class="my_account-title">
             <div class="newUser">
-                <span class="userName">Olá, <b>${$.cookie("LI-UserLoggedName").trim().split(" ")[0]}</b></span>
+                <span class="userName">Olá, <b>${firstName}</b></span>
             </div>
         </a>
         <span class="my_account-subtitle">
             <a href="/conta/index">Acessar Conta</a> 
         </span>`);
         $(".my_account ul").append(`<li class="login"><a href="/conta/logout">Sair</a></li>`);
-    } else if (typeof $.cookie("LI-UserLoggedName") === "undefined" && $(".btn-group .botao.secundario.pequeno").text() !== '') {
-        const nomeUpd = $(".btn-group .botao.secundario.pequeno").text().trim().split(" ")[1];
-        $(".my_account_info").html(`<a href="/conta/login" class="my_account-title">
-            <div class="newUser">
-                <span class="userName">Olá, <b>${nomeUpd}</b></span>
-            </div>
-        </a>
-        <span class="my_account-subtitle">
-            <a href="/conta/index">Acessar Conta</a> 
-        </span>`);
-        $(".my_account ul").append(`<li class="login"><a href="/conta/logout">Sair</a></li>`);
+    } else {
+        const btnText = $(".btn-group .botao.secundario.pequeno").text().trim();
+        if (btnText !== '') {
+            const nomeUpd = btnText.split(" ")[1];
+            $(".my_account_info").html(`<a href="/conta/login" class="my_account-title">
+                <div class="newUser">
+                    <span class="userName">Olá, <b>${nomeUpd}</b></span>
+                </div>
+            </a>
+            <span class="my_account-subtitle">
+                <a href="/conta/index">Acessar Conta</a> 
+            </span>`);
+            $(".my_account ul").append(`<li class="login"><a href="/conta/logout">Sair</a></li>`);
+        }
     }
 }
 
- 
-newAccountMobile = function() {
-	const newSvgExit = `<div class="icon-options-menu-mobile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-17 0 512 512"><path d="m462.453125 247.742188h-165.164063c-9.121093 0-16.515624-7.386719-16.515624-16.515626 0-9.128906 7.394531-16.515624 16.515624-16.515624h165.164063c9.121094 0 16.515625 7.386718 16.515625 16.515624 0 9.128907-7.394531 16.515626-16.515625 16.515626zm0 0"></path><path d="m412.902344 297.289062c-4.226563 0-8.453125-1.609374-11.675782-4.839843-6.453124-6.449219-6.453124-16.902344 0-23.351563l37.871094-37.871094-37.871094-37.871093c-6.453124-6.453125-6.453124-16.90625 0-23.355469 6.453126-6.449219 16.902344-6.449219 23.355469 0l49.546875 49.550781c6.453125 6.449219 6.453125 16.902344 0 23.351563l-49.546875 49.546875c-3.226562 3.230469-7.453125 4.839843-11.679687 4.839843zm0 0"></path><path d="m363.355469 165.160156c9.121093 0 16.515625-7.386718 16.515625-16.515625v-132.128906c0-9.128906-7.394532-16.515625-16.515625-16.515625h-346.839844c-.753906 0-1.394531.332031-2.121094.429688-.976562.128906-1.875.265624-2.8125.566406-1.417969.449218-2.65625 1.113281-3.875 1.90625-.5.324218-1.109375.398437-1.578125.773437-.207031.167969-.285156.4375-.484375.613281-1.226562 1.09375-2.15625 2.410157-3.015625 3.824219-.339844.5625-.816406 1.015625-1.089844 1.621094-.949218 2.078125-1.539062 4.347656-1.539062 6.78125v429.417969c0 7.792968 5.445312 14.515625 13.054688 16.144531l231.226562 49.550781c1.144531.257813 2.304688.371094 3.460938.371094 3.742187 0 7.417968-1.273438 10.386718-3.675781 3.878906-3.132813 6.128906-7.855469 6.128906-12.839844v-33.03125h99.097657c9.121093 0 16.515625-7.386719 16.515625-16.519531v-132.128906c0-9.128907-7.394532-16.515626-16.515625-16.515626-9.121094 0-16.515625 7.386719-16.515625 16.515626v115.613281h-82.582032v-363.351563c0-7.792968-5.445312-14.515625-13.054687-16.144531l-78.808594-16.890625h174.445313v115.613281c0 9.128907 7.394531 16.515625 16.515625 16.515625zm-132.128907 309.890625-198.195312-42.46875v-395.632812l198.195312 42.46875zm0 0"></path></svg></div>`
- 
- 
-	if ($.cookie("LI-UserLoggedName") != '' && "undefined" != typeof $.cookie("LI-UserLoggedName")) {
-		$(".lrMenu .minhaconta a").attr("href", "/conta/index").text("Minha Conta")
-		$(".lrMenu .options-menu-mobile").append(`<li class="exit">${newSvgExit} <a href="/conta/logout">Sair</a></li>`)
-    } 
-    else if (typeof $.cookie("LI-UserLoggedName") == "undefined" && $(".btn-group .botao.secundario.pequeno").text() != '') {
-    	$(".lrMenu .minhaconta a").attr("href", "/conta/index").text("Minha Conta")
-		$(".lrMenu .options-menu-mobile").append(`<li class="exit">${newSvgExit} <a href="/conta/logout">Sair</a></li>`)
-    }
-    else {
-        $(".lrMenu .minhaconta a").attr('href',"/conta/login").html(`<b>Entre</b> ou <b>Cadastre-se</b>`)
+function newAccountMobile() {
+    const newSvgExit = `<div class="icon-options-menu-mobile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-17 0 512 512"><path d="m462.453125 247.742188h-165.164063c-9.121093 0-16.515624-7.386719-16.515624-16.515626 0-9.128906 7.394531-16.515624 16.515624-16.515624h165.164063c9.121094 0 16.515625 7.386718 16.515625 16.515624 0 9.128907-7.394531 16.515626-16.515625 16.515626zm0 0"></path><path d="m412.902344 297.289062c-4.226563 0-8.453125-1.609374-11.675782-4.839843-6.453124-6.449219-6.453124-16.902344 0-23.351563l37.871094-37.871094-37.871094-37.871093c-6.453124-6.453125-6.453124-16.90625 0-23.355469 6.453126-6.449219 16.902344-6.449219 23.355469 0l49.546875 49.550781c6.453125 6.449219 6.453125 16.902344 0 23.351563l-49.546875 49.546875c-3.226562 3.230469-7.453125 4.839843-11.679687 4.839843zm0 0"></path><path d="m363.355469 165.160156c9.121093 0 16.515625-7.386718 16.515625-16.515625v-132.128906c0-9.128906-7.394532-16.515625-16.515625-16.515625h-346.839844c-.753906 0-1.394531.332031-2.121094.429688-.976562.128906-1.875.265624-2.8125.566406-1.417969.449218-2.65625 1.113281-3.875 1.90625-.5.324218-1.109375.398437-1.578125.773437-.207031.167969-.285156.4375-.484375.613281-1.226562 1.09375-2.15625 2.410157-3.015625 3.824219-.339844.5625-.816406 1.015625-1.089844 1.621094-.949218 2.078125-1.539062 4.347656-1.539062 6.78125v429.417969c0 7.792968 5.445312 14.515625 13.054688 16.144531l231.226562 49.550781c1.144531.257813 2.304688.371094 3.460938.371094 3.742187 0 7.417968-1.273438 10.386718-3.675781 3.878906-3.132813 6.128906-7.855469 6.128906-12.839844v-33.03125h99.097657c9.121093 0 16.515625-7.386719 16.515625-16.519531v-132.128906c0-9.128907-7.394532-16.515626-16.515625-16.515626-9.121094 0-16.515625 7.386719-16.515625 16.515626v115.613281h-82.582032v-363.351563c0-7.792968-5.445312-14.515625-13.054687-16.144531l-78.808594-16.890625h174.445313v115.613281c0 9.128907 7.394531 16.515625 16.515625 16.515625zm-132.128907 309.890625-198.195312-42.46875v-395.632812l198.195312 42.46875zm0 0"></path></svg></div>`
+
+    if ($.cookie("LI-UserLoggedName") && $.cookie("LI-UserLoggedName").trim() !== '') {
+        $(".lrMenu .minhaconta a").attr("href", "/conta/index").text("Minha Conta");
+        $(".lrMenu .options-menu-mobile").append(`<li class="exit">${newSvgExit} <a href="/conta/logout">Sair</a></li>`);
+    } else {
+        const btnText = $(".btn-group .botao.secundario.pequeno").text().trim();
+        if (btnText !== '') {
+            $(".lrMenu .minhaconta a").attr("href", "/conta/index").text("Minha Conta");
+            $(".lrMenu .options-menu-mobile").append(`<li class="exit">${newSvgExit} <a href="/conta/logout">Sair</a></li>`);
+        } else {
+            $(".lrMenu .minhaconta a").attr('href', "/conta/login").html(`<b>Entre</b> ou <b>Cadastre-se</b>`);
+        }
     }
 }
- 
-setTimeout(function() {
+
+setTimeout(function () {
     const launchFn = window.screen.width < 769 ? newAccountMobile : newAccountDesktop;
     launchFn();
     $('.my_account ul').show();
